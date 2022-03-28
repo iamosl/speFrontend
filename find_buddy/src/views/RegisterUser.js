@@ -111,7 +111,7 @@ const RegisterUser = () => {
                         </Button>
                         <Typography style={{ margin: "10px 0", textAlign: "center" }}>
                             Already a User?
-                            <Link href='#'>
+                            <Link href='/login'>
                                 {/* Redirect to Login Page left */}
                                 Login
                             </Link>

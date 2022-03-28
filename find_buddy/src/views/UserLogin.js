@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import axios from "axios";
+import { useHistory } from 'react-router-dom';
 
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material'
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 
 const UserLogin = () => {
 
+    const history = useHistory();
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     //For Toast Notification  (Snackbar)
@@ -38,7 +40,12 @@ const UserLogin = () => {
                 console.log(response.data);
                 setMessage("Login Successful");
                 setSuccess(response.data.status);
-                // Redirect to Dashboard
+                history.push({
+                    pathname: '/dashboard',
+                    state: {  // location state
+                        user: response.data.user,
+                    },
+                });
             })
             .catch(error => {
                 console.log(error.response.data);
@@ -98,7 +105,7 @@ const UserLogin = () => {
                         </Button>
                         <Typography style={{ margin: "10px 0", textAlign: "center" }}>
                             Not an existing User?
-                            <Link href='#'>
+                            <Link href='/register'>
                                 {/* Redirect to Register Page left */}
                                 Sign Up
                             </Link>
