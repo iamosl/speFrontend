@@ -119,7 +119,7 @@ const RegisterUser = () => {
                     </Paper>
                 </Grid >
             </form>
-            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Snackbar open={open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={3000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={success} sx={{ width: '100%' }}>
                     {message}
                 </Alert>
