@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/profile" component={ProfileView}></Route>
         <Route path="/portfolio" component={PortfolioView}></Route>
         <Route path="/post" component={PostView}></Route>
-        <Redirect from="*" to="/login"></Redirect>
+        <Redirect from="*" to="/profile"></Redirect>
       </Switch>
     </Router>
   )
