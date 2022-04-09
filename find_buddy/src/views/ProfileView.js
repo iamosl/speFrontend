@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Paper, MenuItem, TextField, Select, OutlinedInput, InputLabel } from '@mui/material'
+import { Grid, Paper, MenuItem, TextField, Button, Select, OutlinedInput, InputLabel } from '@mui/material'
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
 
@@ -34,6 +34,32 @@ const ProfileView = () => {
         });
     };
 
+    const handleSubmit = React.useCallback(
+        async (event) => {
+            // Prevent form from submitting:
+            event.preventDefault();
+            // Check the schema if form is valid:
+            console.log(formValues);
+            try {
+                let res = await axios.post(
+                    "http://localhost:8080/api/profile",
+                    { ...formValues,
+                );
+                if (res.data.name === formValues.name) {
+                    setSuccess(true);
+                    setFailure(false);
+                    setMessage("Patient details added successfully");
+                }
+            } catch (e) {
+                setFailure(true);
+                setSuccess(false);
+                setMessage(e.response.data.message);
+            }
+        },
+        [formValues]
+    );
+
+
     return (
         <>
             <Paper elevation={10} style={{ margin: "5vh 35%", height: "auto", width: "auto" }} className="page-content" >
@@ -41,7 +67,7 @@ const ProfileView = () => {
                     <h2 style={{ textAlign: "center", marginTop: "5px" }} className="wizard-heading">
                         Create Profile Form
                     </h2>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div style={{ maxWidth: "95%", margin: "auto" }}>
                             <Grid
                                 container
@@ -130,6 +156,13 @@ const ProfileView = () => {
                                         showCheckbox
                                         placeholder="Select all your relevant skills"
                                     />
+                                </Grid>
+                                <Grid item l={12}>
+                                    <Button type='submit'
+                                        variant="contained"
+                                        fullWidth>
+                                        Submit
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </div>
