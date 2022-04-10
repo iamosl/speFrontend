@@ -49,7 +49,7 @@ const RegisterUser = () => {
     const fieldStyle = { margin: "8px 0" }
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>
                         <Grid align='center' style={{ margin: "12px 0" }}>

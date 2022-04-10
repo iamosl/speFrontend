@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
+import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
 
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material'
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
@@ -40,12 +41,16 @@ const UserLogin = () => {
                 console.log(response.data);
                 setMessage("Login Successful");
                 setSuccess(response.data.status);
-                history.push({
-                    pathname: '/dashboard',
-                    state: {  // location state
-                        user: response.data.user,
-                    },
-                });
+                setLocalStorageData('currentUser', response.data.user);
+                axios
+                    .get('http://localhost:8080/api/skill')
+                    .then(response => {
+                        setLocalStorageData('listOfSkills', response.data);
+                    })
+                    .catch(error => {
+                        console.log(error.response.data);
+                    })
+                history.push('/dashboard'); //redirect to dashboard
             })
             .catch(error => {
                 console.log(error.response.data);
@@ -59,7 +64,7 @@ const UserLogin = () => {
     const fieldStyle = { margin: "8px 0" }
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>
                         <Grid align='center' style={{ margin: "12px 0" }}>
@@ -106,7 +111,6 @@ const UserLogin = () => {
                         <Typography style={{ margin: "10px 0", textAlign: "center" }}>
                             Not an existing User?
                             <Link href='/register'>
-                                {/* Redirect to Register Page left */}
                                 Sign Up
                             </Link>
                         </Typography>

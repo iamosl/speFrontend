@@ -2,18 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Paper, MenuItem, TextField, Button, Select, OutlinedInput, InputLabel } from '@mui/material'
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
+import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
+
 
 const ProfileView = () => {
 
-    const [skills, setSkills] = useState([]);
-
-    useEffect(() => {
-        const fetchSkills = async () => {
-            const result = await axios('http://localhost:8080/api/skill');
-            setSkills(result.data);
-        }
-        fetchSkills();
-    }, []);
+    const skills = getLocalStorageData('listOfSkills');
+    const currentUser = getLocalStorageData('currentUser');
 
     const defaultValues = {
         bio: "",
@@ -34,29 +29,24 @@ const ProfileView = () => {
         });
     };
 
+
     const handleSubmit = React.useCallback(
         async (event) => {
             // Prevent form from submitting:
             event.preventDefault();
-            // Check the schema if form is valid:
-            console.log(formValues);
+            let data = { ...formValues, skills: selectedSkills, user: currentUser };
             try {
                 let res = await axios.post(
                     "http://localhost:8080/api/profile",
-                    { ...formValues,
+                    data,
+                    { headers: { 'Content-Type': 'application/json' } }
                 );
-                if (res.data.name === formValues.name) {
-                    setSuccess(true);
-                    setFailure(false);
-                    setMessage("Patient details added successfully");
-                }
+                console.log(res.data);
             } catch (e) {
-                setFailure(true);
-                setSuccess(false);
-                setMessage(e.response.data.message);
+                console.log(e);
             }
         },
-        [formValues]
+        [formValues, selectedSkills]
     );
 
 
@@ -146,11 +136,11 @@ const ProfileView = () => {
                                         options={skills} // Options to display in the dropdown
                                         onRemove={(event) => {
                                             setSelectedSkills(event);
-                                            console.log(selectedSkills)
+                                            // console.log(selectedSkills)
                                         }}
                                         onSelect={(event) => {
                                             setSelectedSkills(event);
-                                            console.log(selectedSkills)
+                                            // console.log(selectedSkills)
                                         }}
                                         displayValue="skill" // Property name to display in the dropdown options
                                         showCheckbox
