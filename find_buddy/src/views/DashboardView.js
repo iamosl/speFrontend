@@ -26,6 +26,9 @@ const DashboardView = () => {
             <Link href='/profile'>
                 Create Profile
             </Link>
+            <Link href='/project'>
+                Create Project
+            </Link>
             <h2>Logout</h2>
             <Button
                 variant="contained"

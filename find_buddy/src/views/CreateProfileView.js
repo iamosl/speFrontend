@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { Grid, Paper, MenuItem, TextField, Button, Select, OutlinedInput, InputLabel } from '@mui/material'
+import React, { useState } from 'react'
+import { Grid, Paper, MenuItem, TextField, Button } from '@mui/material'
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
 import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
 
 
-const ProfileView = () => {
+const CreateProfileView = () => {
 
     const skills = getLocalStorageData('listOfSkills');
     const currentUser = getLocalStorageData('currentUser');
@@ -42,6 +42,8 @@ const ProfileView = () => {
                     { headers: { 'Content-Type': 'application/json' } }
                 );
                 console.log(res.data);
+                //TO DO 
+                // setLocalStorageData('currentProfile', data); 
             } catch (e) {
                 console.log(e);
             }
@@ -164,4 +166,4 @@ const ProfileView = () => {
     )
 }
 
-export default ProfileView
+export default CreateProfileView
