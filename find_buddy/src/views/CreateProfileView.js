@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Paper, MenuItem, TextField, Button } from '@mui/material'
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
 import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
 
 
-const CreateProfileView = () => {
+const CreateProfileView = (props) => {
 
     const skills = getLocalStorageData('listOfSkills');
     const currentUser = getLocalStorageData('currentUser');
+    const currentProfile = getLocalStorageData('currentProfile');
 
     const defaultValues = {
         bio: "",
@@ -29,6 +30,11 @@ const CreateProfileView = () => {
         });
     };
 
+    useEffect(() => {
+        props.view ? setFormValues(currentProfile) : setFormValues(formValues);
+        props.view ? console.log("Profile Exists") : setSelectedSkills(selectedSkills);
+    }, [props.view])
+
 
     const handleSubmit = React.useCallback(
         async (event) => {
@@ -42,22 +48,21 @@ const CreateProfileView = () => {
                     { headers: { 'Content-Type': 'application/json' } }
                 );
                 console.log(res.data);
-                //TO DO 
-                // setLocalStorageData('currentProfile', data); 
+                setLocalStorageData('currentProfile', data);
             } catch (e) {
                 console.log(e);
             }
         },
-        [formValues, selectedSkills]
+        [formValues, selectedSkills, currentUser]
     );
 
 
     return (
         <>
             <Paper elevation={10} style={{ margin: "5vh 35%", height: "auto", width: "auto" }} className="page-content" >
-                <fieldset>
+                <fieldset disabled={props.view}>
                     <h2 style={{ textAlign: "center", marginTop: "5px" }} className="wizard-heading">
-                        Create Profile Form
+                        {props.view ? "Your Profile" : "Create Profile Form"}
                     </h2>
                     <form onSubmit={handleSubmit}>
                         <div style={{ maxWidth: "95%", margin: "auto" }}>
@@ -131,10 +136,13 @@ const CreateProfileView = () => {
                                         style={{
                                             multiselectContainer: {
                                                 width: 450,
-                                                height: 56
+                                                height: 56,
+                                                marginBottom: 10,
+                                                paddingBottom: 10
                                             }
                                         }
                                         }
+                                        selectedValues={props.view ? currentProfile.skills : []}
                                         options={skills} // Options to display in the dropdown
                                         onRemove={(event) => {
                                             setSelectedSkills(event);
@@ -149,13 +157,14 @@ const CreateProfileView = () => {
                                         placeholder="Select all your relevant skills"
                                     />
                                 </Grid>
-                                <Grid item l={12}>
+                                {props.view ? <></> : <Grid item l={12}>
                                     <Button type='submit'
                                         variant="contained"
                                         fullWidth>
                                         Submit
                                     </Button>
-                                </Grid>
+                                </Grid>}
+
                             </Grid>
                         </div>
                     </form>

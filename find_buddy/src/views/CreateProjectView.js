@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Grid, Paper, MenuItem, TextField, Button } from '@mui/material'
+import Navbar from '../components/navbar';
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
 import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
@@ -9,7 +10,7 @@ const CreateProjectView = () => {
     const skills = getLocalStorageData('listOfSkills');
 
     //TO DO 
-    // const profile = getLocalStorageData('profile');
+    const currentProfile = getLocalStorageData('currentProfile');
 
     const defaultValues = {
         name: "",
@@ -33,23 +34,24 @@ const CreateProjectView = () => {
         async (event) => {
             // Prevent form from submitting:
             event.preventDefault();
-            let data = { ...formValues, skills: selectedSkills };
+            let data = { ...formValues, skills: selectedSkills, profile: currentProfile };
             try {
-                // let res = await axios.post(
-                //     "http://localhost:8080/api/project",
-                //     data,
-                //     { headers: { 'Content-Type': 'application/json' } }
-                // );
-                console.log(data);
+                let res = await axios.post(
+                    "http://localhost:8080/api/project",
+                    data,
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
+                console.log(res.data);
             } catch (e) {
                 console.log(e);
             }
         },
-        [formValues, selectedSkills]
+        [formValues, selectedSkills, currentProfile]
     );
 
     return (
         <>
+            <Navbar />
             <Paper elevation={10} style={{ margin: "5vh 35%", height: "auto", width: "auto" }} className="page-content" >
                 <fieldset>
                     <h2 style={{ textAlign: "center", marginTop: "5px" }} className="wizard-heading">

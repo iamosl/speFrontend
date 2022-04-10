@@ -24,10 +24,10 @@ const DashboardView = () => {
             <Navbar />
             <h2>Hi {user.name}</h2>
             <Link href='/profile'>
-                Create Profile
+                Profile
             </Link>
-            <Link href='/project'>
-                Create Project
+            <Link href='/portfolio'>
+                Portfolio
             </Link>
             <h2>Logout</h2>
             <Button

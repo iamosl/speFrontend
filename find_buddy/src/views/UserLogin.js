@@ -50,6 +50,18 @@ const UserLogin = () => {
                     .catch(error => {
                         console.log(error.response.data);
                     })
+                axios
+                    .get('http://localhost:8080/api/profile/userId/' + response.data.user.id)
+                    .then(response => {
+                        if (response.data)
+                            setLocalStorageData('currentProfile', response.data);
+                        else
+                            setLocalStorageData('currentProfile', {});
+
+                    })
+                    .catch(error => {
+                        console.log(error.response.data);
+                    })
                 history.push('/dashboard'); //redirect to dashboard
             })
             .catch(error => {
