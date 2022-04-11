@@ -1,16 +1,44 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
 import Navbar from '../components/navbar';
+import { Link, Button } from '@mui/material';
+import { useHistory } from 'react-router-dom';
+import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
 
 const DashboardView = () => {
-    const location = useLocation();
+    const history = useHistory();
 
-    console.log(location.state.user);
-    const userName = location.state.user.name;
+    // console.log(location.state.user);
+    // const userName = location.state.user.name;
+
+    const logout = () => {
+        localStorage.clear();
+        console.log("I was called");
+        history.push('/login'); //redirect to login
+    }
+
+    const user = getLocalStorageData('currentUser');
+
     return (
         <>
             <Navbar />
-            <h2>Hi {userName}</h2>
+            <h2>Hi {user.name}</h2>
+            <Link href='/profile'>
+                Profile
+            </Link>
+            <Link href='/portfolio'>
+                Portfolio
+            </Link>
+            <h2>Logout</h2>
+            <Button
+                variant="contained"
+                onClick={() => { logout() }}
+
+            >
+                Logout
+            </Button>
+
+
 
         </>
     )
