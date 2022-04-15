@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material'
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import axios from "axios";
+import { useHistory } from 'react-router-dom';
 
 const RegisterUser = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -12,6 +13,7 @@ const RegisterUser = () => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('Please fill the required fields');
     const [success, setSuccess] = useState("warning");
+    const history = useHistory();
 
     const handleClick = () => {
         setOpen(true);
@@ -44,14 +46,20 @@ const RegisterUser = () => {
                 setSuccess("error");
 
             });
+        
+        register('email',{});
+        register('name',{});
+        register('password',{});
+        history.push('/login')
+
     };
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <>
+        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 450px"}}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
-                    <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>
+                    <Paper elevation={10} style={{ padding: 20, height: '60vh', width: 350, margin: "100px auto" }}>
                         <Grid align='center' style={{ margin: "12px 0" }}>
                             <Avatar><AppRegistrationOutlinedIcon color="primary" /></Avatar>
                             <h2>Sign Up</h2>
@@ -124,7 +132,7 @@ const RegisterUser = () => {
                     {message}
                 </Alert>
             </Snackbar>
-        </>
+        </div>
     )
 }
 
