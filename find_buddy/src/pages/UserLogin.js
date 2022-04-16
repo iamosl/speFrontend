@@ -58,8 +58,10 @@ const UserLogin = () => {
                 axios
                     .get('http://localhost:8080/api/profile/userId/' + response.data.user.id)
                     .then(response => {
-                        if (response.data)
+                        if (response.data){
+                            console.log(response.data);
                             setLocalStorageData('currentProfile', response.data);
+                        }
                         else
                             setLocalStorageData('currentProfile', {});
 
@@ -80,7 +82,7 @@ const UserLogin = () => {
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 450px"}}>
+        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 550px"}}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>

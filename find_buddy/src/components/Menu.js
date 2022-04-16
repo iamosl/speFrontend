@@ -20,6 +20,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuTabs from './MenuTabs';
 import { ListItem } from '@mui/material';
 import { useHistory } from 'react-router-dom';
+import { Link, Button } from '@mui/material';
+
 
 const drawerWidth = 240;
 
@@ -97,9 +99,17 @@ export default function NavMenuBar() {
     setOpen(!open);
   };
 
+  const logout = () => {
+    localStorage.clear();
+    console.log("I was called");
+    history.push('/login'); //redirect to login
+    window.location.reload(false);
+  }
+
+
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" open={open} >
+      <AppBar position="fixed" open={open} sx={{backgroundColor:"#151B54"}} >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -116,6 +126,7 @@ export default function NavMenuBar() {
           <Typography variant="h6" noWrap component="div">
             Find Buddy
           </Typography>
+          <Button style={{marginLeft:"900px", backgroundColor:"#4863A0"}} color="secondary" variant="contained" onClick={() => { logout() }}> Logout</Button>
         </Toolbar>
       </AppBar> 
       <Drawer variant="permanent" open={open}>

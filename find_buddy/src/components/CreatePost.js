@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Grid, Paper, MenuItem, TextField, Button } from "@mui/material";
-import Navbar from "../components/navbar";
 import axios from "axios";
 import Multiselect from "multiselect-react-dropdown";
 import {
   setLocalStorageData,
   getLocalStorageData,
-} from "../components/globalFunctions";
+} from "./globalFunctions";
 import { useHistory } from "react-router-dom";
 import {
   Dialog,
@@ -15,9 +14,9 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
-const CreateProjectView = (props) => {
+const CreatePost = (props) => {
   const { open, onClose } = props;
   // console
   const skills = getLocalStorageData("listOfSkills");
@@ -27,9 +26,8 @@ const CreateProjectView = (props) => {
   const descriptionElementRef = React.useRef(null);
 
   const defaultValues = {
-    name: "",
+    title: "",
     description: "",
-    projectLink: "",
   };
 
   const [formValues, setFormValues] = useState(defaultValues);
@@ -55,13 +53,15 @@ const CreateProjectView = (props) => {
         skills: selectedSkills,
         profile: currentProfile,
       };
+      console.log(data);
+
       try {
-        let res = await axios.post("http://localhost:8080/api/project", data, {
+        let res = await axios.post("http://localhost:8080/api/post", data, {
           headers: { "Content-Type": "application/json" },
         });
-        console.log(res.data);
+        console.log(data);
         handleClose();
-        history.push("/portfolio");
+        history.push("/post");
         window.location.reload(false);
       } catch (e) {
         console.log(e);
@@ -80,7 +80,7 @@ const CreateProjectView = (props) => {
     >
       <Dialog open={open} onClose={handleClose}>
         <h2 style={{ marginInlineStart: "100px" }} className="wizard-heading">
-          Create Project Form
+          Create Post
         </h2>
         <DialogContent>
           <DialogContentText
@@ -98,11 +98,11 @@ const CreateProjectView = (props) => {
                 <Grid item lg={12}>
                   <TextField
                     id="name"
-                    value={formValues.name}
+                    value={formValues.title}
                     onChange={handleInputChange}
-                    name="name"
+                    name="title"
                     required
-                    label="Project Name"
+                    label="Post Title"
                     type="text"
                     style={{ width: 450 }}
                     variant="outlined"
@@ -119,18 +119,6 @@ const CreateProjectView = (props) => {
                     style={{ width: 450 }}
                     multiline
                     rows={4}
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item lg={12}>
-                  <TextField
-                    id="projectLink"
-                    value={formValues.projectLink}
-                    onChange={handleInputChange}
-                    name="projectLink"
-                    label="Project GitHub Link"
-                    type="text"
-                    style={{ width: 450 }}
                     variant="outlined"
                   />
                 </Grid>
@@ -157,7 +145,7 @@ const CreateProjectView = (props) => {
                   />
                 </Grid>
                 <Grid item lg={12}>
-                  <Button type="submit" variant="contained">
+                  <Button type="submit" variant="contained" style={{position:"absolute"}}>
                     Submit
                   </Button>
                 </Grid>
@@ -173,9 +161,4 @@ const CreateProjectView = (props) => {
   );
 };
 
-CreateProjectView.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-};
-
-export default CreateProjectView;
+export default CreatePost;

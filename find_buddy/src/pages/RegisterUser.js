@@ -56,7 +56,7 @@ const RegisterUser = () => {
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 450px"}}>
+        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 550px"}}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '60vh', width: 350, margin: "100px auto" }}>

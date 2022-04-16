@@ -1,19 +1,16 @@
 import React, { Fragment } from 'react'
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import { Redirect } from "react-router";
-import RegisterUser from './views/RegisterUser'
-import UserLogin from './views/UserLogin'
-import DashboardView from './views/DashboardView'
-import CreateProjectView from './views/CreateProjectView';
+import RegisterUser from './pages/RegisterUser'
+import UserLogin from './pages/UserLogin'
+import DashboardView from './pages/DashboardView'
 import Profile from './pages/Profile';
-import Portfolio from './pages/Portfolio';
-import PostView from './views/PostView';
-import AllProjects from './views/AllProjects'
 import NavMenuBar from './components/Menu';
 import { Box } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
 import { getLocalStorageData, setLocalStorageData } from './components/globalFunctions';
 import { useEffect } from 'react';
+import UserProjects from './pages/UserProjects';
+import UserPosts from './pages/UserPosts';
 
 // import Navbar from './components/navbar';
 import './App.css'
@@ -49,9 +46,8 @@ const App = () => {
                   <Switch>
                     <Route path="/dashboard" component={DashboardView}></Route>
                     <Route path="/profile" component={Profile}></Route>
-                    <Route path="/portfolio" component={AllProjects}></Route>
-                    {/* <Route path="/addProject" component={CreateProjectView}></Route> */}
-                    <Route path="/posts" component={PostView}></Route>
+                    <Route path="/portfolio" component={UserProjects}></Route>
+                    <Route path="/post" component={UserPosts}></Route>
                     <Redirect from="*" to="/dashboard"></Redirect>
                   </Switch>
               </Fragment>

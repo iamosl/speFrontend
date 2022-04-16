@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Paper, MenuItem, TextField, Button } from '@mui/material'
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
-import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
-import { Box } from '@mui/system';
+import { setLocalStorageData, getLocalStorageData } from './globalFunctions';
+import base_url from '../Backend/BackendApi';
 
 
-const CreateProfileView = (props) => {
+const CreateProfile = (props) => {
 
     const skills = getLocalStorageData('listOfSkills');
     console.log("SKILLS");
@@ -26,11 +26,16 @@ const CreateProfileView = (props) => {
     const [selectedSkills, setSelectedSkills] = useState([]);
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({
-            ...formValues,
-            [name]: value,
-        });
+        if(!props.view){
+            const { name, value } = e.target;
+            setFormValues({
+                ...formValues,
+                [name]: value,
+            });
+        }
+        else{
+            console.log("Sorry");
+        }
     };
 
     useEffect(() => {
@@ -46,12 +51,19 @@ const CreateProfileView = (props) => {
             let data = { ...formValues, skills: selectedSkills, user: currentUser };
             try {
                 let res = await axios.post(
-                    "http://localhost:8080/api/profile",
+                    `${base_url}/api/profile`,
                     data,
                     { headers: { 'Content-Type': 'application/json' } }
                 );
                 console.log(res.data);
-                setLocalStorageData('currentProfile', data);
+                
+                await axios.get(`${base_url}/api/profile/userId/${currentUser.id}`).then(
+                    (response)=>{
+                        setLocalStorageData('currentProfile', response.data);
+                    }
+                )
+                window.location.reload(false);
+
             } catch (e) {
                 console.log(e);
             }
@@ -61,12 +73,11 @@ const CreateProfileView = (props) => {
 
 
     return (
-        <Box>
-            <div style={{ maxWidth: "95%", justifyContent:'center', margin: "100px 0 0 450px"}}>
-                <h2 style={{marginInlineStart:'150px'}} className="wizard-heading">
-                    {props.view ? "Your Profile" : "Create Profile Form"}
-                </h2>
-                <form onSubmit={handleSubmit}>
+            <div style={{margin: "100px 0 0 450px"}}>
+                <form onSubmit={handleSubmit} style={{backgroundColor:"#FFFFFF",width:"35%",paddingLeft:"40px",borderRadius:"15px",position:"fixed"}}>
+                    <h2 style={{marginInlineStart:'150px'}} className="wizard-heading">
+                        {props.view ? "Your Profile" : "Create Your Profile"}
+                    </h2>
                     <Grid container justifyContent= 'center' alignItems="center" spacing={2}>
                     <Grid item lg={12}>
                     <TextField
@@ -146,6 +157,7 @@ const CreateProfileView = (props) => {
                             }
                         }
                         }
+                        multiline
                         selectedValues={props.view ? currentProfile.skills : []}
                         options={skills} // Options to display in the dropdown
                         onRemove={(event) => {
@@ -158,21 +170,18 @@ const CreateProfileView = (props) => {
                         }}
                         displayValue="skill" // Property name to display in the dropdown options
                         showCheckbox
-                        placeholder="Select all your relevant skills"
-                    />
-                {props.view ? <></> : 
-                    <Button type='submit'
-                        variant="contained"
-                        >
-                        Submit
-                    </Button>
-                }
-                </Grid>
+                        placeholder="Select all your relevant skills"/>
+                        {props.view ? <></> : 
+                            <Button type='submit'
+                                variant="contained">
+                                Submit
+                            </Button>
+                        }
+                    </Grid>
                 </Grid>
         </form>
     </div>
-    </Box>
     )
 }
 
-export default CreateProfileView
+export default CreateProfile

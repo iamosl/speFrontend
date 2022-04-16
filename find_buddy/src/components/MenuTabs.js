@@ -26,7 +26,7 @@ const MenuTabs = [
     },
 
     {
-        path: "./posts",
+        path: "./post",
         text: "Posts",
         icon: <ArticleIcon/>
 

@@ -1,14 +1,13 @@
 import React from 'react'
-import CreateProfileView from '../views/CreateProfileView';
 import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
-import Navbar from '../components/navbar';
-import { Box } from '@mui/system';
+import './Profile.css'
+import CreateProfile from '../components/CreateProfile';
 
 const Profile = () => {
     const profile = getLocalStorageData('currentProfile');
     return (
-        <div>
-            {Object.keys(profile).length === 0 ? <CreateProfileView /> : <CreateProfileView view={true} />}
+        <div className='Profile'>
+            {Object.keys(profile).length === 0 ? <CreateProfile /> : <CreateProfile view={true} />}
         </div>
     )
 }

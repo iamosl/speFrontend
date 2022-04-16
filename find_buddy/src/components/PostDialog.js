@@ -9,9 +9,9 @@ import Fab from '@mui/material/Fab';
 import { Button } from "@mui/material";
 import { Link } from "@mui/material";
 
-const ProjectDialog=(props)=>{
+const PostDialog=(props)=>{
     
-    const {open,handleClose,project} = props;
+    const {open,handleClose,post} = props;
 
     const descriptionElementRef = React.useRef(null);
     React.useEffect(() => {
@@ -28,12 +28,12 @@ const ProjectDialog=(props)=>{
             open={open}
             onClose={handleClose}
             scroll='paper'
-            aria-labelledby={project.name}
-            aria-describedby={project.description}
+            aria-labelledby={post.title}
+            aria-describedby={post.description}
             maxWidth="md">
             <DialogTitle id="scroll-dialog-title">
                 <Typography variant="h4" color="text.primary" >
-                        {project.name}
+                        {post.title}
                 </Typography>
             </DialogTitle>
             <DialogContent>
@@ -43,7 +43,7 @@ const ProjectDialog=(props)=>{
                 tabIndex={-1}>
                     <Grid container>
                         {
-                            project.skills.map((item)=>(
+                            post.skills.map((item)=>(
                                 <Grid item key={item.id}>
                                 <Fab color="secondary" aria-label={item.id} sx={{fontSize:"10px",marginBottom:"20px",marginInlineEnd:"10px"}} size="small" variant="extended">
                                     {item.skill}
@@ -52,9 +52,8 @@ const ProjectDialog=(props)=>{
                             ))
                         }
                     </Grid>
-                    <Link href={project.projectLink} variant="body2" color="primary" style={{fontWeight:"bold"}} target="_blank">{project.projectLink}</Link>
                     <Typography variant="body1" color="text.secondary" style={{fontSize:"20px",marginTop:"10px"}}>
-                        {project.description}
+                        {post.description}
                     </Typography>
                 </DialogContentText>
             </DialogContent>
@@ -65,4 +64,4 @@ const ProjectDialog=(props)=>{
     )
 }
 
-export default ProjectDialog;
+export default PostDialog;
