@@ -6,6 +6,7 @@ import { setLocalStorageData, getLocalStorageData } from '../components/globalFu
 
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material'
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import base_url from '../Backend/BackendApi';
 
 const UserLogin = () => {
 
@@ -38,7 +39,7 @@ const UserLogin = () => {
         console.log(data);
         axios
             .post(
-                'http://localhost:8080/api/user/signIn',
+                `${base_url}/api/user/signIn`,
                 data,
                 { headers: { 'Content-Type': 'application/json' } }
             )
@@ -48,7 +49,7 @@ const UserLogin = () => {
                 setSuccess(response.data.status);
                 setLocalStorageData('currentUser', response.data.user);
                 axios
-                    .get('http://localhost:8080/api/skill')
+                    .get(`${base_url}/api/skill`)
                     .then(response => {
                         setLocalStorageData('listOfSkills', response.data);
                     })
@@ -56,7 +57,7 @@ const UserLogin = () => {
                         console.log(error.response.data);
                     })
                 axios
-                    .get('http://localhost:8080/api/profile/userId/' + response.data.user.id)
+                    .get(`${base_url}/api/profile/userId/` + response.data.user.id)
                     .then(response => {
                         if (response.data){
                             console.log(response.data);

@@ -14,6 +14,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import base_url from "../Backend/BackendApi";
 // import PropTypes from "prop-types";
 
 const CreatePost = (props) => {
@@ -56,7 +57,7 @@ const CreatePost = (props) => {
       console.log(data);
 
       try {
-        let res = await axios.post("http://localhost:8080/api/post", data, {
+        let res = await axios.post(`${base_url}/api/post`, data, {
           headers: { "Content-Type": "application/json" },
         });
         console.log(data);

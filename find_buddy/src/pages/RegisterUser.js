@@ -5,6 +5,7 @@ import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Ale
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
+import base_url from '../Backend/BackendApi';
 
 const RegisterUser = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -31,7 +32,7 @@ const RegisterUser = () => {
         console.log(data);
         axios
             .post(
-                'http://localhost:8080/api/user/signUp',
+                `${base_url}/api/user/signUp`,
                 data,
                 { headers: { 'Content-Type': 'application/json' } }
             )
