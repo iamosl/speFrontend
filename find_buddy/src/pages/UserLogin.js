@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import axios from "axios";
 import { Redirect, useHistory } from 'react-router-dom';
@@ -29,26 +29,26 @@ const UserLogin = () => {
         setOpen(false);
     };
 
-    const changePage=()=>{
+    const changePage = () => {
         console.log("YAAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYY")
         history.push('/dashboard'); //redirect to dashboard
         window.location.reload(false);
     }
     //For API call
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
-        axios
+        await axios
             .post(
                 `${base_url}/api/user/signIn`,
                 data,
                 { headers: { 'Content-Type': 'application/json' } }
             )
-            .then(response => {
+            .then(async response => {
                 console.log(response.data);
                 setMessage("Login Successful");
                 setSuccess(response.data.status);
                 setLocalStorageData('currentUser', response.data.user);
-                axios
+                await axios
                     .get(`${base_url}/api/skill`)
                     .then(response => {
                         setLocalStorageData('listOfSkills', response.data);
@@ -56,15 +56,15 @@ const UserLogin = () => {
                     .catch(error => {
                         console.log(error.response.data);
                     })
-                axios
+                await axios
                     .get(`${base_url}/api/profile/userId/` + response.data.user.id)
-                    .then(response => {
-                        if (response.data){
+                    .then(async response => {
+                        if (response.data) {
                             console.log(response.data);
-                            setLocalStorageData('currentProfile', response.data);
+                            await setLocalStorageData('currentProfile', response.data);
                         }
                         else
-                            setLocalStorageData('currentProfile', {});
+                            await setLocalStorageData('currentProfile', {});
 
                     })
                     .catch(error => {
@@ -83,7 +83,7 @@ const UserLogin = () => {
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 550px"}}>
+        <div style={{ maxWidth: "95%", justifyContent: 'center', margin: "50px 0 0 550px" }}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>
