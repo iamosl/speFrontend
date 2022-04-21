@@ -14,46 +14,46 @@ import './DashboardView.css'
 
 const DashboardView = () => {
     const history = useHistory();
-    
+
     const user = getLocalStorageData('currentUser');
-    const [posts,setPosts] = useState([]);
-    useEffect(()=>{
+    const [posts, setPosts] = useState([]);
+    useEffect(() => {
         getAllPosts();
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[posts]);
+    }, [posts]);
 
-    const getAllPosts=()=>{
+    const getAllPosts = () => {
         axios.get(`${base_url}/api/post`).then(
-            (response)=>{
+            (response) => {
                 setPosts(response.data);
                 console.log(posts);
             },
-            (error)=>{
-                throw(error);
+            (error) => {
+                throw (error);
             }
         )
-    }    
-
-    const temp = {
-        title: "Heyaaaaaaaaaaaaaaaaa",
-        description: "sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds  ",
-        skills:[]
     }
 
+    // const temp = {
+    //     title: "Heyaaaaaaaaaaaaaaaaa",
+    //     description: "sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds fjds sdaf hdsh fsdhf dhsf jkhsdk fsdhj fjds  ",
+    //     skills:[]
+    // }
+
     return (
-        <div className='Dashboard' style={{ justifyContent:'center',height:"100%", width:"100%"}}>
-            <div style={{ margin: "100px 0 0 50px"}}>
-                {
+        <div className='Dashboard' style={{ justifyContent: 'center', height: "100%", width: "100%" }}>
+            <div style={{ margin: "100px 0 0 50px" }}>
+                {/* {
                     <DashboardContent post={temp} key={temp.title} />
-                }
+                } */}
                 {
-                    posts.map((item)=>(
+                    posts.map((item) => (
                         <DashboardContent post={item} key={item.title} />
                     ))
-                }                
+                }
             </div>
         </div>
     )
