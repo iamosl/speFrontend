@@ -74,7 +74,7 @@ const CreateProfile = (props) => {
 
     return (
             <div style={{margin: "100px 0 0 450px"}}>
-                <form onSubmit={handleSubmit} style={{backgroundColor:"#FFFFFF",width:"35%",paddingLeft:"40px",borderRadius:"15px",position:"fixed"}}>
+                <form onSubmit={handleSubmit} style={{backgroundColor:"#FFFFFF",width:"25%",paddingLeft:"40px",borderRadius:"15px",position:"fixed"}}>
                     <h2 style={{marginInlineStart:'150px'}} className="wizard-heading">
                         {props.view ? "Your Profile" : "Create Your Profile"}
                     </h2>

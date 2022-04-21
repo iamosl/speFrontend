@@ -16,6 +16,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import base_url from "../Backend/BackendApi";
 
 const CreateProject = (props) => {
   const { open, onClose } = props;
@@ -57,7 +58,7 @@ const CreateProject = (props) => {
       };
       console.log(data);
       try {
-        let res = await axios.post("http://localhost:8080/api/project", data, {
+        let res = await axios.post(`${base_url}/api/project`, data, {
           headers: { "Content-Type": "application/json" },
         });
         console.log(res.data);
