@@ -3,7 +3,17 @@
     font-weight: bold;
 }
 
-.MuiCardContent-root {
+/* .MuiCardContent-root {
     font-size: 1.5rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+} */
+
+.MainBody {
+    font-size: 1.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.subtitle{
+    font-size: 1.25rem;
+    font-style: italic;
 }

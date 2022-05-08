@@ -21,12 +21,15 @@ import MenuTabs from './MenuTabs';
 import { ListItem } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { Link, Button } from '@mui/material';
+import './Menu.css'
 
 
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
+  color:'black',
+  backgroundColor:'#4863A0',
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -35,6 +38,8 @@ const openedMixin = (theme) => ({
 });
 
 const closedMixin = (theme) => ({
+  color:'black',
+  backgroundColor:'#4863A0',
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -106,6 +111,22 @@ export default function NavMenuBar() {
     window.location.reload(false);
   }
 
+  const handleClick=(item)=>{
+    var tabs = document.getElementsByClassName('Tabs');
+    var currTab = document.getElementById(item.text);
+    for(var i=0;i<tabs.length;i++){
+      console.log(tabs[i],currTab)
+      if(tabs[i]==currTab){
+        tabs[i].classList.add('selected');
+        console.log("Fdsafd");
+      }
+      else {
+        tabs[i].classList.remove('selected');
+      }
+    }
+    // console.log(e.target); 
+    history.push(item.path)
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -135,14 +156,14 @@ export default function NavMenuBar() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+        <Divider/>
         <List>
             {
                 MenuTabs.map((item,key)=>(
-                    <ListItem onClick={()=>{history.push(item.path)}} key={item.text} >
+                    <ListItem id={item.text} className='Tabs' button onClick={()=>{handleClick(item)}} key={item.text} >
                         <ListItemButton sx={{minHeight: 48, justifyContent: open ? 'initial' : 'center',px: 2.5,}}>
                         <ListItemIcon 
-                        sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',marginLeft:"-15px"}}>
+                        sx={{minWidth: 0,mr: open ? 3 : 'auto',justifyContent: 'center',marginLeft:"-15px",color:"#191970"}}>
                           {item.icon}
                         </ListItemIcon>
                         <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
