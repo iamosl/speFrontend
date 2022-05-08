@@ -7,6 +7,8 @@ import base_url from "../Backend/BackendApi";
 import { getLocalStorageData } from "./globalFunctions";
 import axios from "axios";
 import { Button } from "@mui/material";
+import { typography } from "@mui/system";
+
 const DashboardContent = ({ post }) => {
 
     const profile = getLocalStorageData("currentProfile");
@@ -24,6 +26,7 @@ const DashboardContent = ({ post }) => {
         <Grid lg={12} key={post.title}>
             <Card sx={{ width: "60%", height: "100%", marginBottom: "50px", }}>
                 <CardHeader title={post.title} />
+
                 <Grid container>
                     {
                         post.skills.map((item) => (
@@ -35,8 +38,16 @@ const DashboardContent = ({ post }) => {
                         ))  // console.log(post.skills)
                     }
                 </Grid>
-                <CardContent >
+                <CardContent className="subtitle">
+                    <typography  variant="body2" color="text.secondary">
+                        {"By: " + post.id}
+                    </typography >
+                </CardContent>
+                <CardContent className="MainBody">
+                    <hr/>
+                    <typography variant="body2" color="text.secondary">
                     {post.description}
+                    </typography>
                 </CardContent>
                 <Button size="small" variant="contained" onClick={handleAddInterest} sx={{ marginLeft: "700px", position: "static" }}> Interested</Button>
             </Card>
