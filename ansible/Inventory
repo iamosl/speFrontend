@@ -1,2 +1,2 @@
-[ubuntu]
-localhost ansible_user=mudit
+[azure]
+20.239.187.64 ansible_connection=ssh ansible_user=mudit219 ansible_ssh_user=mudit219 ansible_python_interpreter=/usr/bin/python3.8 ansible_ssh_pass=SpeProjectPass@123 ansible_become_pass=SpeProjectPass@123
