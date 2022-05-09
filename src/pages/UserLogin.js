@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import axios from "axios";
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
 
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material'
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import base_url from '../Backend/BackendApi';
 
 const UserLogin = () => {
 
@@ -28,41 +29,48 @@ const UserLogin = () => {
         setOpen(false);
     };
 
+    const changePage = () => {
+        console.log("YAAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYY")
+        history.push('/dashboard'); //redirect to dashboard
+        window.location.reload(false);
+    }
     //For API call
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         console.log(data);
-        axios
+        await axios
             .post(
-                'http://localhost:8080/api/user/signIn',
+                `${base_url}/api/user/signIn`,
                 data,
                 { headers: { 'Content-Type': 'application/json' } }
             )
-            .then(response => {
+            .then(async response => {
                 console.log(response.data);
                 setMessage("Login Successful");
                 setSuccess(response.data.status);
                 setLocalStorageData('currentUser', response.data.user);
-                axios
-                    .get('http://localhost:8080/api/skill')
+                await axios
+                    .get(`${base_url}/api/skill`)
                     .then(response => {
                         setLocalStorageData('listOfSkills', response.data);
                     })
                     .catch(error => {
                         console.log(error.response.data);
                     })
-                axios
-                    .get('http://localhost:8080/api/profile/userId/' + response.data.user.id)
-                    .then(response => {
-                        if (response.data)
-                            setLocalStorageData('currentProfile', response.data);
+                await axios
+                    .get(`${base_url}/api/profile/userId/` + response.data.user.id)
+                    .then(async response => {
+                        if (response.data) {
+                            console.log(response.data);
+                            await setLocalStorageData('currentProfile', response.data);
+                        }
                         else
-                            setLocalStorageData('currentProfile', {});
+                            await setLocalStorageData('currentProfile', {});
 
                     })
                     .catch(error => {
                         console.log(error.response.data);
                     })
-                history.push('/dashboard'); //redirect to dashboard
+                changePage();
             })
             .catch(error => {
                 console.log(error.response.data);
@@ -75,7 +83,7 @@ const UserLogin = () => {
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <>
+        <div style={{ maxWidth: "95%", justifyContent: 'center', margin: "50px 0 0 550px" }}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>
@@ -134,7 +142,7 @@ const UserLogin = () => {
                     {message}
                 </Alert>
             </Snackbar>
-        </>
+        </div>
     )
 }
 
