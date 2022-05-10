@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   spe_frontend:
-    image: mudit219/spe_client
+    image: iamosl/spe_client
     restart: unless-stopped
 #    env_file: ./.env
     ports:
