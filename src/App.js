@@ -24,7 +24,7 @@ const App = () => {
 
   console.log(user);
   return (
-      <Box  className="find-buddy" sx={{ display: 'flex' }}>
+      <Box className="find-buddy" sx={{display:'flex', padding:10,marginLeft:"-200px", backgroundColor: '#95B9C7', height: "100vh"}}>
         <Router>
           {
             !user && (

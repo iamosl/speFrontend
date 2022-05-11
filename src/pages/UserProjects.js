@@ -22,7 +22,11 @@ const UserProjects=()=>{
     console.log(user);
 
     const getAllProjects=()=>{
-        axios.get(`${base_url}/api/project/userId/${user.id}`).then(
+        axios.get(`${base_url}/api/project/userId/${user.id}`,{
+            headers:{
+              'Authorization': getLocalStorageData('token')
+            }
+          }).then(
             (response)=>{
                 setProjects(response.data);
             },
@@ -42,12 +46,11 @@ const UserProjects=()=>{
     }
     
     return (
-        <div className="UserProject">
-            <div style={{margin: "50px 0 0 0px"}}>
+        <Container className="UserProject">
             {
                 Object.keys(profile).length === 0 ? <h1 style={{ margin: "350px 0 0 550px",color:"#FFFFFF"}}>Please create your profile first</h1>
                 : (
-                    <Container style={{ margin: "100px 0 0 50px", }}>
+                    <div >
                         <Button
                             style={{backgroundColor:"#4863A0"}}
                             variant="contained"
@@ -62,12 +65,11 @@ const UserProjects=()=>{
                                         <ViewProject project={item} key={item.name} />
                                     ))
                                 }
-                        </Grid>
-                    </Container>
+                        </Grid> 
+                    </div>
                 )
             }
-        </div>
-    </div>
+    </Container>
     );
 }
 

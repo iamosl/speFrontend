@@ -107,8 +107,8 @@ export default function NavMenuBar() {
   const logout = () => {
     localStorage.clear();
     console.log("I was called");
-    history.push('/login'); //redirect to login
     window.location.reload(false);
+    history.push('/login'); //redirect to login
   }
 
   const handleClick=(item)=>{
@@ -129,7 +129,7 @@ export default function NavMenuBar() {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box >
       <AppBar position="fixed" open={open} sx={{backgroundColor:"#151B54"}} >
         <Toolbar>
           <IconButton
@@ -147,7 +147,7 @@ export default function NavMenuBar() {
           <Typography variant="h6" noWrap component="div">
             Find Buddy
           </Typography>
-          <Button style={{marginLeft:"900px", backgroundColor:"#4863A0"}} color="secondary" variant="contained" onClick={() => { logout() }}> Logout</Button>
+          <Button style={{marginLeft:"80%", backgroundColor:"#4863A0"}} color="secondary" variant="contained" onClick={() => { logout() }}> Logout</Button>
         </Toolbar>
       </AppBar> 
       <Drawer variant="permanent" open={open}>

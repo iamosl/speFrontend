@@ -6,11 +6,11 @@ import { setLocalStorageData, getLocalStorageData } from './globalFunctions';
 import base_url from '../Backend/BackendApi';
 
 
-const CreateProfile = (props) => {
+const CreateProfile = ({open,handleClose}) => {
 
     const skills = getLocalStorageData('listOfSkills');
-    console.log("SKILLS");
-    console.log(skills);
+    // console.log("SKILLS");
+    // console.log(skills);
     const currentUser = getLocalStorageData('currentUser');
     const currentProfile = getLocalStorageData('currentProfile');
 
@@ -18,7 +18,7 @@ const CreateProfile = (props) => {
         bio: "",
         profession: "",
         expertise: "",
-        experience: "",
+        name: "",
     }
 
     const [formValues, setFormValues] = useState(defaultValues);
@@ -26,22 +26,17 @@ const CreateProfile = (props) => {
     const [selectedSkills, setSelectedSkills] = useState([]);
 
     const handleInputChange = (e) => {
-        if (!props.view) {
-            const { name, value } = e.target;
-            setFormValues({
-                ...formValues,
-                [name]: value,
-            });
-        }
-        else {
-            console.log("Sorry");
-        }
+        const { name, value } = e.target;
+        setFormValues({
+            ...formValues,
+            [name]: value,
+        });
     };
 
     useEffect(() => {
-        props.view ? setFormValues(currentProfile) : setFormValues(formValues);
-        props.view ? console.log("Profile Exists") : setSelectedSkills(selectedSkills);
-    }, [props.view])
+        setFormValues(currentProfile);
+        console.log("Profile Exists");
+    }, [])
 
 
     const handleSubmit = React.useCallback(
@@ -49,15 +44,36 @@ const CreateProfile = (props) => {
             // Prevent form from submitting:
             event.preventDefault();
             let data = { ...formValues, skills: selectedSkills, user: currentUser };
+            console.log(data);
             try {
-                let res = await axios.post(
-                    `${base_url}/api/profile`,
-                    data,
-                    { headers: { 'Content-Type': 'application/json' } }
-                );
-                console.log(res.data);
+                if(currentProfile['id']==null){
+                    console.log("First Time!!!!")
+                    await axios.post(
+                        `${base_url}/api/profile`,
+                        data, {
+                            headers: { 
+                              "Content-Type": "application/json",
+                              "Authorization": getLocalStorageData("token")
+                           },
+                          });
+                }
+                else{
+                    console.log("Updating Profile!!!!")
+                    await axios.put(
+                        `${base_url}/api/profile/update`,
+                        data, {
+                            headers: { 
+                              "Content-Type": "application/json",
+                              "Authorization": getLocalStorageData("token")
+                           },
+                        });
+                }
 
-                await axios.get(`${base_url}/api/profile/userId/${currentUser.id}`).then(
+                await axios.get(`${base_url}/api/profile/userId/${currentUser.id}`,{
+                    headers:{
+                      'Authorization': getLocalStorageData('token')
+                    }
+                  }).then(
                     (response) => {
                         setLocalStorageData('currentProfile', response.data);
                     }
@@ -67,18 +83,32 @@ const CreateProfile = (props) => {
             } catch (e) {
                 console.log(e);
             }
+            handleClose();
         },
         [formValues, selectedSkills, currentUser]
     );
 
 
     return (
-        <div style={{ margin: "100px 0 0 450px" }}>
-            <form onSubmit={handleSubmit} style={{ backgroundColor: "#FFFFFF", width: "25%", height: "60%", paddingLeft: "40px", borderRadius: "15px", position: "fixed" }}>
+        // <div style={{ margin: "100px 0 0 450px" }}>
+            <form onSubmit={handleSubmit} style={{ backgroundColor: "#FFFFFF", width: "25%", height: "60%", paddingLeft: "40px", borderRadius: "15px" }}>
                 <h2 style={{ marginInlineStart: '150px' }} className="wizard-heading">
-                    {props.view ? "Your Profile" : "Create Your Profile"}
+                    {"Your Profile"}
                 </h2>
                 <Grid container justifyContent='center' alignItems="center" spacing={2}>
+                <Grid item lg={12}>
+                    <TextField
+                        id="name"
+                        value={formValues.name}
+                        onChange={handleInputChange}
+                        name="name"
+                        label="Name"
+                        required
+                        type="text"
+                        style={{ width: 450 }}
+                        variant="outlined"
+                    />
+                    </Grid>
                     <Grid item lg={12}>
                         <TextField
                             id="bio"
@@ -131,20 +161,7 @@ const CreateProfile = (props) => {
                         </TextField>
                     </Grid>
 
-                    <Grid item lg={12}>
-
-                        <TextField
-                            id="experience"
-                            value={formValues.experience}
-                            onChange={handleInputChange}
-                            name="experience"
-                            label="Experience"
-                            required
-                            type="number"
-                            style={{ width: 450 }}
-                            variant="outlined"
-                        />
-                    </Grid>
+                    
                     <Grid item lg={12}>
 
                         <Multiselect
@@ -158,7 +175,7 @@ const CreateProfile = (props) => {
                             }
                             }
                             multiline
-                            selectedValues={props.view ? currentProfile.skills : []}
+                            selectedValues={currentProfile.skills}
                             options={skills} // Options to display in the dropdown
                             onRemove={(event) => {
                                 setSelectedSkills(event);
@@ -171,16 +188,12 @@ const CreateProfile = (props) => {
                             displayValue="skill" // Property name to display in the dropdown options
                             showCheckbox
                             placeholder="Select all your relevant skills" />
-                        {props.view ? <></> :
-                            <Button type='submit'
-                                variant="contained">
-                                Submit
-                            </Button>
-                        }
+                       
                     </Grid>
                 </Grid>
+                <Button type='submit' variant="contained">Submit</Button>
             </form>
-        </div>
+        // </div>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form';
 import axios from "axios";
 import { Redirect, useHistory } from 'react-router-dom';
@@ -17,6 +17,7 @@ const UserLogin = () => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('Please fill the required fields');
     const [success, setSuccess] = useState("warning");
+    const token = useRef("");
 
     const handleClick = () => {
         setOpen(true);
@@ -36,40 +37,64 @@ const UserLogin = () => {
     }
     //For API call
     const onSubmit = async (data) => {
+        // e.preventDefault();
         console.log(data);
         await axios
             .post(
-                `${base_url}/api/user/signIn`,
+                `${base_url}/login`,
                 data,
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then(async response => {
-                console.log(response.data);
-                setMessage("Login Successful");
-                setSuccess(response.data.status);
-                setLocalStorageData('currentUser', response.data.user);
-                await axios
-                    .get(`${base_url}/api/skill`)
-                    .then(response => {
-                        setLocalStorageData('listOfSkills', response.data);
-                    })
-                    .catch(error => {
-                        console.log(error.response.data);
-                    })
-                await axios
-                    .get(`${base_url}/api/profile/userId/` + response.data.user.id)
-                    .then(async response => {
-                        if (response.data) {
-                            console.log(response.data);
-                            await setLocalStorageData('currentProfile', response.data);
+                // console.log(response.data);
+                token.current = response.headers["authorization"];
+                await setLocalStorageData('token', token.current);
+                console.log("Token",token.current);
+                await axios.post(`${base_url}/signIn`,data,{
+                        headers:{
+                          'Authorization': token.current
                         }
-                        else
-                            await setLocalStorageData('currentProfile', {});
+                      })
+                    .then(async response => {
+                        console.log("Sigining in")
+                        setMessage("Login Successful");
+                        setSuccess(response.data.status);
+                        setLocalStorageData('currentUser', response.data.user);
+                        console.log("Sigining innnnn")
+                        await axios.get(`${base_url}/api/skill`,{
+                            headers:{
+                            'Authorization': token.current
+                            }
+                        })
+                            .then(async response => {
+                                console.log("Getting SKills")
+                                await setLocalStorageData('listOfSkills', response.data);
+                            })
+                            .catch(error => {
+                                console.log(error.response.data);
+                            })
+                        await axios.get(`${base_url}/api/profile/userId/` + response.data.user.id,{
+                            headers:{
+                            'Authorization': token.current
+                            }
+                        })
+                            .then(async response => {
+                                if (response.data) {
+                                    console.log(response.data);
+                                    await setLocalStorageData('currentProfile', response.data);
+                                }
+                                else
+                                    await setLocalStorageData('currentProfile', {});
 
-                    })
-                    .catch(error => {
-                        console.log(error.response.data);
-                    })
+                            })
+                            .catch(error => {
+                                console.log(error.response.data);
+                            })
+                        })
+                        .catch(error => {
+                            console.log(error.response.data);
+                        })
+                
                 changePage();
             })
             .catch(error => {
@@ -92,21 +117,16 @@ const UserLogin = () => {
                             <h2>Login</h2>
                         </Grid>
                         <TextField
-                            id="email"
-                            name="email"
-                            label='Email-Id'
-                            placeholder='Enter your Email ID'
+                            id="username"
+                            name="username"
+                            label='Username'
+                            placeholder='Enter your username'
                             fullWidth
                             style={fieldStyle}
-                            {...register('email', {
+                            {...register('username', {
                                 required: "Required Field",
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Enter a valid Email Address"
-                                }
                             })}
-                            error={!!errors?.email}
-                            helperText={errors?.email ? errors.email.message : null} />
+                            />
                         <TextField
                             id="password"
                             name="password"

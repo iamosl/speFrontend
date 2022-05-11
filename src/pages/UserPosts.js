@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
 import ViewPost from "../components/ViewPost";
 import CreatePost from "../components/CreatePost";
+// import { Container } from "@mui/material";
 import './UserPosts.css'
 
 const UserPosts=()=>{
@@ -23,7 +24,11 @@ const UserPosts=()=>{
     const user = getLocalStorageData('currentUser');
 
     const getAllPosts=()=>{
-        axios.get(`${base_url}/api/post/userId/${user.id}`).then(
+        axios.get(`${base_url}/api/post/userId/${user.id}`,{
+            headers:{
+              'Authorization': getLocalStorageData('token')
+            }
+          }).then(
             (response)=>{
                 setPosts(response.data);
             },
@@ -43,11 +48,11 @@ const UserPosts=()=>{
     }
     
     return (
-        <div className="UserPost">
-            <div style={{margin: "50px 0 0 0px"}}>
+        <Container className="UserPost">
+            {/* <div style={{margin: "50px 0 0 0px"}}> */}
         {
             Object.keys(profile).length === 0 ? <h1 style={{ margin: "350px 0 0 550px",color:"#FFFFFF"}}>Please create your profile first</h1>
-            : (<Container style={{ margin: "100px 0 0 50px"}}>
+            : (<div>
                     <Button
                         style={{backgroundColor:"#4863A0"}}
                         variant="contained"
@@ -63,11 +68,11 @@ const UserPosts=()=>{
                             ))
                         }
                     </Grid>
-                </Container>
+                </div>
             )
         }
-        </div>        
-        </div>
+        </Container>        
+        // </div>
     );
 }
 

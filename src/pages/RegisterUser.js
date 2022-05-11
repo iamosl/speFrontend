@@ -32,7 +32,7 @@ const RegisterUser = () => {
         console.log(data);
         axios
             .post(
-                `${base_url}/api/user/signUp`,
+                `${base_url}/signUp`,
                 data,
                 { headers: { 'Content-Type': 'application/json' } }
             )
@@ -66,6 +66,17 @@ const RegisterUser = () => {
                             <h2>Sign Up</h2>
                         </Grid>
                         <TextField
+                            id="username"
+                            name="username"
+                            label='Username'
+                            placeholder='Enter your UserName'
+                            fullWidth
+                            style={fieldStyle}
+                            {...register('username', {
+                                required: "Required Field"
+                            })}
+                            />
+                        <TextField
                             id="email"
                             name="email"
                             label='Email-Id'
@@ -81,18 +92,7 @@ const RegisterUser = () => {
                             })}
                             error={!!errors?.email}
                             helperText={errors?.email ? errors.email.message : null} />
-                        <TextField
-                            id="name"
-                            name="name"
-                            label='Name'
-                            placeholder='Enter your Name'
-                            fullWidth
-                            style={fieldStyle}
-                            {...register('name', {
-                                required: "Required Field"
-                            })}
-                            error={!!errors?.name}
-                            helperText={errors?.name ? errors.name.message : null} />
+                        
                         <TextField
                             id="password"
                             name="password"

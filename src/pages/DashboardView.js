@@ -26,7 +26,11 @@ const DashboardView = () => {
     }, [posts]);
 
     const getAllPosts = () => {
-        axios.get(`${base_url}/api/post`).then(
+        axios.get(`${base_url}/api/post`,{
+            headers:{
+              'Authorization': getLocalStorageData('token')
+            }
+          }).then(
             (response) => {
                 setPosts(response.data);
                 console.log(posts);
@@ -44,18 +48,17 @@ const DashboardView = () => {
     // }
 
     return (
-        <div className='Dashboard' style={{ justifyContent: 'center', height: "100%", width: "100%" }}>
-            <div style={{ margin: "100px 0 0 50px" }}>
-                {/* {
-                    <DashboardContent post={temp} key={temp.title} />
-                } */}
+        // <div className='Dashboard' style={{ justifyContent: 'center', height: "100%", width: "100%" }}>
+            <Container style={{padding:20}}>
+                <Grid container spacing={2}>
                 {
                     posts.map((item) => (
                         <DashboardContent post={item} key={item.title} />
                     ))
                 }
-            </div>
-        </div>
+                </Grid>
+            </Container>
+        // </div>
     )
 }
 

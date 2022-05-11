@@ -58,7 +58,10 @@ const CreatePost = (props) => {
 
       try {
         let res = await axios.post(`${base_url}/api/post`, data, {
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": getLocalStorageData("token")
+         },
         });
         console.log(data);
         handleClose();

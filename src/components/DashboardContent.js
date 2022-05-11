@@ -14,7 +14,12 @@ const DashboardContent = ({ post }) => {
     const profile = getLocalStorageData("currentProfile");
 
     const handleAddInterest = () => {
-        axios.post(`${base_url}/api/post/addInterested/${post.id}`, profile)
+        axios.post(`${base_url}/api/post/addInterested/${post.id}`, profile, {
+            headers: { 
+              "Content-Type": "application/json",
+              "Authorization": getLocalStorageData("token")
+           },
+          })
             .then((response) => {
                 console.log(response.status);
             }, (error) => {
@@ -23,8 +28,8 @@ const DashboardContent = ({ post }) => {
     }
 
     return (
-        <Grid lg={12} key={post.title}>
-            <Card sx={{ width: "60%", height: "100%", marginBottom: "50px", }}>
+        <Grid item lg={12} key={post.title}>
+            <Card>
                 <CardHeader title={post.title} />
 
                 <Grid container>
@@ -40,7 +45,7 @@ const DashboardContent = ({ post }) => {
                 </Grid>
                 <CardContent className="subtitle">
                     <typography  variant="body2" color="text.secondary">
-                        {"By: " + post.id}
+                        {"By: " + post.profile.user.username}
                     </typography >
                 </CardContent>
                 <CardContent className="MainBody">
@@ -49,7 +54,13 @@ const DashboardContent = ({ post }) => {
                     {post.description}
                     </typography>
                 </CardContent>
-                <Button size="small" variant="contained" onClick={handleAddInterest} sx={{ marginLeft: "700px", position: "static" }}> Interested</Button>
+                {
+                    post.profile.id != profile.id &&  
+                        (
+                            <Button size="small" variant="contained" onClick={handleAddInterest} sx={{ marginTop:'-5%',marginLeft: "80%", position: "static" }}> Interested</Button>
+                        )
+                }
+                
             </Card>
         </Grid>
     )
