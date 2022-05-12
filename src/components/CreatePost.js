@@ -25,6 +25,7 @@ const CreatePost = (props) => {
   //TO DO
   const currentProfile = getLocalStorageData("currentProfile");
   const descriptionElementRef = React.useRef(null);
+  const user = getLocalStorageData('currentUser');
 
   const defaultValues = {
     title: "",
@@ -65,7 +66,7 @@ const CreatePost = (props) => {
         });
         console.log(data);
         handleClose();
-        history.push("/post");
+        history.push("/post/"+user.username);
         window.location.reload(false);
       } catch (e) {
         console.log(e);
@@ -145,7 +146,7 @@ const CreatePost = (props) => {
                     }}
                     displayValue="skill" // Property name to display in the dropdown options
                     showCheckbox
-                    placeholder="Select all your relevant skills"
+                    placeholder="Select Relevant Technologies"
                   />
                 </Grid>
                 <Grid item lg={12}>

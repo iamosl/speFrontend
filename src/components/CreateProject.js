@@ -17,12 +17,15 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import base_url from "../Backend/BackendApi";
+import userEvent from "@testing-library/user-event";
 
 const CreateProject = (props) => {
   const { open, onClose } = props;
   // console
   const skills = getLocalStorageData("listOfSkills");
   const history = useHistory();
+  const user = getLocalStorageData("currentUser");
+
   //TO DO
   const currentProfile = getLocalStorageData("currentProfile");
   const descriptionElementRef = React.useRef(null);
@@ -66,7 +69,7 @@ const CreateProject = (props) => {
         });
         console.log(res.data);
         handleClose();
-        history.push("/portfolio");
+        history.push("/portfolio/"+user.username);
         window.location.reload(false);
       } catch (e) {
         console.log(e);
@@ -158,7 +161,7 @@ const CreateProject = (props) => {
                     }}
                     displayValue="skill" // Property name to display in the dropdown options
                     showCheckbox
-                    placeholder="Select all your relevant skills"
+                    placeholder="Select Relevant Technologies"
                   />
                 </Grid>
                 <Grid item lg={12}>

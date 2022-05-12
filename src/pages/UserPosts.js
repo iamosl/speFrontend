@@ -61,7 +61,7 @@ const UserPosts=()=>{
                     </Button>
                     <CreatePost open={open} onClose={handleClose} />
                     <h2> {console.log(posts)} </h2>
-                    <Grid container style={{marginTop:"-50px"}}>
+                    <Grid container spacing={5}>
                         {
                             posts.map((item)=>(
                                 <ViewPost post={item} key={item.name} />

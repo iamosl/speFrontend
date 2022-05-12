@@ -14,6 +14,7 @@ import UserPosts from './pages/UserPosts';
 
 // import Navbar from './components/navbar';
 import './App.css'
+import PublicProfile from './pages/PublicProfile';
 
 const App = () => {
   const user = getLocalStorageData('currentUser');
@@ -24,7 +25,7 @@ const App = () => {
 
   console.log(user);
   return (
-      <Box className="find-buddy" sx={{display:'flex', padding:10,marginLeft:"-200px", backgroundColor: '#95B9C7', height: "100vh"}}>
+      <Box className="find-buddy" sx={{padding:10}}>
         <Router>
           {
             !user && (
@@ -44,11 +45,12 @@ const App = () => {
               <Fragment>
                 <NavMenuBar />
                   <Switch>
-                    <Route path="/dashboard" component={DashboardView}></Route>
-                    <Route path="/profile" component={Profile}></Route>
-                    <Route path="/portfolio" component={UserProjects}></Route>
-                    <Route path="/post" component={UserPosts}></Route>
-                    <Redirect from="*" to="/dashboard"></Redirect>
+                    <Route path={`/dashboard/:uname`} component={DashboardView}></Route>
+                    <Route path={`/profile/${user.username}`} component={Profile}></Route>
+                    <Route path={`/portfolio/:uname`} component={UserProjects}></Route>
+                    <Route path={`/post/:uname`} component={UserPosts}></Route>
+                    <Route path={"/profile/:uname"} component={PublicProfile}></Route>
+                    <Redirect from="*" to={`/dashboard/${user.username}`}></Redirect>
                   </Switch>
               </Fragment>
             )

@@ -40,6 +40,7 @@ const RegisterUser = () => {
                 console.log(response.data);
                 setMessage(response.data.message);
                 setSuccess(response.data.status);
+                history.push('/login')
             })
             .catch(error => {
                 console.log(error.response.data);
@@ -51,13 +52,12 @@ const RegisterUser = () => {
         register('email',{});
         register('name',{});
         register('password',{});
-        history.push('/login')
 
     };
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 550px"}}>
+        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 900px"}}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '60vh', width: 350, margin: "100px auto" }}>

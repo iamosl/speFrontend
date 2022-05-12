@@ -21,6 +21,7 @@ import MenuTabs from './MenuTabs';
 import { ListItem } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { Link, Button } from '@mui/material';
+import { getLocalStorageData } from './globalFunctions';
 import './Menu.css'
 
 
@@ -99,6 +100,7 @@ export default function NavMenuBar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
+  const user = getLocalStorageData('currentUser');
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -117,15 +119,15 @@ export default function NavMenuBar() {
     for(var i=0;i<tabs.length;i++){
       console.log(tabs[i],currTab)
       if(tabs[i]==currTab){
-        tabs[i].classList.add('selected');
+        tabs[i].classList.add('selectedTab');
         console.log("Fdsafd");
       }
       else {
-        tabs[i].classList.remove('selected');
+        tabs[i].classList.remove('selectedTab');
       }
     }
-    // console.log(e.target); 
-    history.push(item.path)
+    // console.log(item.path + user.username);
+    history.push(item.path + "/" + user.username )
   }
 
   return (

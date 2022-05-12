@@ -12,7 +12,7 @@ const ProfileDialog=({open,handleClose})=>{
     return (
         <div>
             <Dialog open={open} onClose={handleClose} className='DialogBox' disableEnforceFocus>
-                <DialogTitle>Connect to a Doctor</DialogTitle>
+                <DialogTitle>Edit your profile</DialogTitle>
                 <DialogContent>
                     <CreateProfile open={open} handleClose={handleClose}/>
                 </DialogContent>

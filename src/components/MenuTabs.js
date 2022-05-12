@@ -6,27 +6,27 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 const MenuTabs = [
     {
-        path: "./dashboard",
+        path: "/dashboard",
         text: "Dashboard",
         icon: <LaptopIcon/>
     },
 
     {
-        path: "./profile",
+        path: "/profile",
         text: "Profile",
         icon: <AccountCircleIcon/>
 
     },
 
     {
-        path: "./portfolio",
+        path: "/portfolio",
         text: "Portfolio",
         icon: <MenuBookIcon/>
 
     },
 
     {
-        path: "./post",
+        path: "/post",
         text: "Posts",
         icon: <ArticleIcon/>
 

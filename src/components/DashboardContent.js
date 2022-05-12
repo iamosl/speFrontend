@@ -6,7 +6,7 @@ import './DashboardContent.css'
 import base_url from "../Backend/BackendApi";
 import { getLocalStorageData } from "./globalFunctions";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import { typography } from "@mui/system";
 
 const DashboardContent = ({ post }) => {
@@ -16,7 +16,7 @@ const DashboardContent = ({ post }) => {
     const handleAddInterest = () => {
         axios.post(`${base_url}/api/post/addInterested/${post.id}`, profile, {
             headers: { 
-              "Content-Type": "application/json",
+              "Content-Type": "application/json",   
               "Authorization": getLocalStorageData("token")
            },
           })
@@ -29,7 +29,7 @@ const DashboardContent = ({ post }) => {
 
     return (
         <Grid item lg={12} key={post.title}>
-            <Card>
+            <Card style={{backgroundColor:"#F5F5F5" }}>
                 <CardHeader title={post.title} />
 
                 <Grid container>
@@ -44,9 +44,11 @@ const DashboardContent = ({ post }) => {
                     }
                 </Grid>
                 <CardContent className="subtitle">
-                    <typography  variant="body2" color="text.secondary">
+                <Link href={`/profile/${post.profile.user.username}`} underline="hover">
+                    {/* <typography  variant="body2" color="text.secondary"> */}
                         {"By: " + post.profile.user.username}
-                    </typography >
+                    {/* </typography > */}
+                </Link>
                 </CardContent>
                 <CardContent className="MainBody">
                     <hr/>
@@ -55,7 +57,7 @@ const DashboardContent = ({ post }) => {
                     </typography>
                 </CardContent>
                 {
-                    post.profile.id != profile.id &&  
+                    (post.profile.id != profile.id && profile.id != null) &&
                         (
                             <Button size="small" variant="contained" onClick={handleAddInterest} sx={{ marginTop:'-5%',marginLeft: "80%", position: "static" }}> Interested</Button>
                         )

@@ -108,7 +108,7 @@ const UserLogin = () => {
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <div style={{ maxWidth: "95%", justifyContent: 'center', margin: "50px 0 0 550px" }}>
+        <div style={{ maxWidth: "95%", justifyContent: 'center', margin: "50px 0 0 900px" }}>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>
