@@ -55,13 +55,14 @@ const DashboardContent = ({ post }) => {
                     <typography variant="body2" color="text.secondary">
                     {post.description}
                     </typography>
-                </CardContent>
-                {
+                    {
                     (post.profile.id != profile.id && profile.id != null) &&
                         (
-                            <Button size="small" variant="contained" onClick={handleAddInterest} sx={{ marginTop:'-5%',marginLeft: "80%", position: "static" }}> Interested</Button>
+                            <Button size="small" variant="contained" onClick={handleAddInterest} sx={{marginLeft: "80%", position: "static" }}> Interested</Button>
                         )
-                }
+                    }
+                </CardContent>
+                
                 
             </Card>
         </Grid>

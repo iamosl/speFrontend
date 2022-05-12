@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useForm } from 'react-hook-form';
-import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material'
+import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert, Container } from '@mui/material'
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
@@ -57,7 +57,7 @@ const RegisterUser = () => {
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <div style={{ maxWidth: "95%", justifyContent:'center', margin: "50px 0 0 900px"}}>
+        <Container >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '60vh', width: 350, margin: "100px auto" }}>
@@ -133,7 +133,7 @@ const RegisterUser = () => {
                     {message}
                 </Alert>
             </Snackbar>
-        </div>
+        </Container>
     )
 }
 

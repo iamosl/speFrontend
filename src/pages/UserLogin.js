@@ -4,7 +4,7 @@ import axios from "axios";
 import { Redirect, useHistory } from 'react-router-dom';
 import { setLocalStorageData, getLocalStorageData } from '../components/globalFunctions';
 
-import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert } from '@mui/material'
+import { Avatar, Button, Grid, Link, Paper, TextField, Typography, Snackbar, Alert,Container } from '@mui/material'
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import base_url from '../Backend/BackendApi';
 
@@ -108,7 +108,7 @@ const UserLogin = () => {
 
     const fieldStyle = { margin: "8px 0" }
     return (
-        <div style={{ maxWidth: "95%", justifyContent: 'center', margin: "50px 0 0 900px" }}>
+        <Container >
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Grid>
                     <Paper elevation={10} style={{ padding: 20, height: '50vh', width: 350, margin: "100px auto" }}>
@@ -162,7 +162,7 @@ const UserLogin = () => {
                     {message}
                 </Alert>
             </Snackbar>
-        </div>
+        </Container>
     )
 }
 
